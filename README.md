@@ -1,1 +1,99 @@
 # openllmtelemetry-js
+
+`openllmtelemetry-js` is an open-source TypeScript library that provides Open Telemetry integration with Large Language Models (LLMs). It is designed to facilitate tracing applications that leverage LLMs and Generative AI, ensuring better observability and monitoring.
+
+## Features
+
+- Easy integration with Open Telemetry for LLM applications.
+- Real-time tracing and monitoring of LLM-based systems.
+- Enhanced safeguards and insights for your LLM applications.
+
+## Installation
+
+To install `openllmtelemetry-js`, simply use npm:
+
+```bash
+npm install openllmtelemetry-js
+```
+
+## Usage 🚀
+
+Here's a basic example of how to use **openllmtelemetry-js** in your project:
+
+First, you need to set up a few environment variables to specify where you want your LLM telemetry to be sent, and make sure you also have any API keys set for interacting with your LLM and for sending the telemetry to  [WhyLabs](https://whylabs.ai/free?utm_source=openllmtelemetry-Github&utm_medium=openllmtelemetry-readme&utm_campaign=WhyLabs_Secure)
+
+
+
+```typescript
+process.env.WHYLABS_DEFAULT_DATASET_ID = "your-model-id"; // e.g. model-1
+process.env.WHYLABS_API_KEY = "replace-with-your-whylabs-api-key";
+```
+
+After you verify your env variables are set you can now instrument your app by running the following:
+
+```typescript
+import { instrument } from 'openllmtelemetry-js';
+
+instrument();
+```
+
+This will automatically instrument your calls to LLMs to gather open telemetry traces and send these to WhyLabs.
+
+## Integration: OpenAI
+Integration with an OpenAI application is straightforward with `openllmtelemetry-js` package.
+
+First, you need to set a few environment variables. This can be done via your container set up or via code. 
+
+```typescript
+process.env.WHYLABS_API_KEY = "<your-whylabs-api-key>";
+process.env.WHYLABS_DEFAULT_DATASET_ID = "<your-llm-resource-id>";
+process.env.WHYLABS_GUARD_ENDPOINT = "<your-container-endpoint>";
+process.env.WHYLABS_GUARD_API_KEY = "internal-secret-for-whylabs-Secure";
+```
+
+Once this is done, all of your OpenAI interactions will be automatically traced. If you have rulesets enabled for blocking in WhyLabs Secure policy, the library will block requests accordingly
+
+```typescript
+import { OpenAI } from 'openai';
+const client = new OpenAI();
+
+const response = await client.chat.completions.create({
+  model: "gpt-3.5-turbo",
+  messages: [
+    {
+      role: "system",
+      content: "You are a helpful chatbot."
+    },
+    {
+      role: "user",
+      content: "Aren't noodles amazing?"
+    }
+  ],
+  temperature: 0.7,
+  max_tokens: 64,
+  top_p: 1
+});
+
+```
+
+## Requirements 📋
+
+- Node.js 14 or higher
+- TypeScript 4.0 or higher
+- @opentelemetry/api
+- @opentelemetry/sdk-trace-base
+
+## Contributing 👐
+
+Contributions are welcome! For major changes, please open an issue first to discuss what you would like to change. Please make sure to update tests as appropriate.
+
+## License 📄
+
+**openllmtelemetry-js** is licensed under the Apache-2.0 License. See [LICENSE](LICENSE) for more details.
+
+## Contact 📧
+
+For support or any questions, feel free to contact us at support@whylabs.ai.
+
+## Documentation
+More documentation can be found here on WhyLabs site: https://whylabs.ai/docs/
